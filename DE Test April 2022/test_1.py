@@ -1,3 +1,4 @@
+import re
 # [TODO]: step 1
 # Update the is_log_line function below to skip lines that are not valid log lines.
 # Valid log lines have a timestamp, error type, and message. For example, lines 1, 3,
@@ -5,11 +6,16 @@
 # There's no perfect way to do this: just decide what you think is reasonable to get
 # the test to pass. The only thing you are not allowed to do is filter out log lines
 # based on the exact row numbers you want to remove.
-def is_log_line(line):
+def is_log_line(line: str) -> bool:
     """Takes a log line and returns True if it is a valid log line and returns nothing
     if it is not.
     """
-    return True
+
+    time_check = re.search("..:..:..", line)
+    if time_check is not None:
+        if "INFO" in line or "TRACE" in line or "WARNING" in line:
+            return True
+    return False
 
 
 # [TODO]: step 2
@@ -17,11 +23,19 @@ def is_log_line(line):
 # dictionary with keys for "timestamp", "log_level", and "message". The valid log
 # levels are `INFO`, `TRACE`, and `WARNING`. See lines 67 to 71 for how we expect the
 # results to look.
-def get_dict(line):
+def get_dict(line: str) -> dict:
     """Takes a log line and returns a dict with
     `timestamp`, `log_level`, `message` keys
     """
-    pass
+    new_line = line.split(" ")
+    timestamp = new_line[0] + " " + new_line[1]
+    log_level = new_line[2]
+    for i in range(6):
+        new_line.pop(0)
+    message = " ".join(new_line)[:-1]
+    log_dict = {"timestamp": timestamp, "log_level": log_level, "message": message}
+    return log_dict
+
 
 
 # YOU DON'T NEED TO CHANGE ANYTHING BELOW THIS LINE

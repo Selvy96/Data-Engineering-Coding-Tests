@@ -7,4 +7,19 @@
 def sum_current_time(time_str: str) -> int:
     """Expects data in the format HH:MM:SS"""
     list_of_nums = time_str.split(":")
-    return sum(list_of_nums)
+    answer = 0
+    for num in list_of_nums:
+        answer += int(num)
+    return answer
+
+
+def test_sum_current_time_returns_int():
+    """Tests sum current time returns a number"""
+    result = sum_current_time("04:05:33")
+
+    assert isinstance(result, int)
+
+def test_sum_current_time_returns_correct_answer():
+    """Tests sum current time function returns correct answer"""
+    result = sum_current_time("03:04:25")
+    assert result == 32
